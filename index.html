@@ -8,19 +8,52 @@
 
     <script src="https://kit.fontawesome.com/1e3be9b4ce.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="style.css">
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
     <script src="script.js" type="module" defer></script>
 </head>
 <body>
 
-    <h1 class="main-title">Social Posts</h1>
+    <!-- our app -->
+    <div id="app">
+        <h1 class="main-title">Social Posts</h1>
 
-    <div id="container" class="posts-list">
-
-        <!-- post di esempio/template, da togliere/commentare e generare da JS -->
-        
-
-    </div>
+        <div id="container" class="posts-list">
+            
+            <div class="post" v-for="(post, index) in posts" :key="post.id">
+                <div class="post__header">
+                    <div class="post-meta">                    
+                        <div class="post-meta__icon">
+                            <img class="profile-pic" :src="post.author.image" :alt="post.author.name" v-if="post.author.image">  
+                            <div class="profile-pic-default" v-else>
+                                <span>{{ getInitials(post.author.name) }}</span>
+                            </div>
+                        </div>
+                        <div class="post-meta__data">
+                            <div class="post-meta__author">{{ post.author.name }}</div>
+                            <div class="post-meta__time">{{ post.created }}</div>
+                        </div>                    
+                    </div>
+                </div>
+                <div class="post__text">{{ post.content }}</div>
+                <div class="post__image">
+                    <img :src="post.media" :alt="`immagine post id: ${post.id}`">
+                </div>
+                <div class="post__footer">
+                    <div class="likes js-likes">
+                        <div class="likes__cta">
+                            <a class="like-button  js-like-button" :class="{'like-button--liked' : post.liked}" href="#" @clic.prevent="toggleLike(index)">
+                                <i class="like-button__icon fas fa-thumbs-up" aria-hidden="true"></i>
+                                <span class="like-button__label">Mi Piace</span>
+                            </a>
+                        </div>
+                        <div class="likes__counter">
+                            Piace a <b class="js-likes-counter">{{ post.likes }}</b> persone
+                        </div>
+                    </div> 
+                </div>            
+            </div>   
     
-    
+        </div>
+    </div>    
 </body>
 </html>
